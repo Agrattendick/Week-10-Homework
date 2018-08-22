@@ -149,4 +149,61 @@ USE sakila;
 #ORDER BY number_of_rentals DESC;
 
 -- 7f. Write a query to display how much business, in dollars, each store brought in.
+#SELECT address.address AS store, CONCAT ('$', FORMAT(SUM(payment.amount), 2)) AS total_business 
+#FROM address
+#JOIN store
+#ON address.address_id = store.address_id
+#JOIN staff
+#ON staff.store_id = store.store_id
+#JOIN payment
+#ON payment.staff_id = staff.staff_id
+#GROUP BY staff.staff_id;
+ 
+-- 7g. Write a query to display for each store it's store ID city, and country.
+#SELECT address.address, store.store_id, city.city, country.country FROM address
+#JOIN city
+#ON address.city_id = city.city_id
+#JOIN country
+#ON city.country_id = country.country_id
+#JOIN store
+#ON store.address_id = address.address_id;
 
+-- 7h. List the top five genres in gross revenue in descending order (HINT: you may need to 
+-- use the following tables: category, film_category, inventory, payment, and rental)
+SELECT category.name AS category, CONCAT('$', FORMAT (SUM(payment.amount),2)) AS gross_revenue 
+FROM category
+JOIN film_category
+ON category.category_id = film_category.category_id
+JOIN inventory
+ON film_category.film_id = inventory.film_id
+JOIN rental
+ON inventory.inventory_id = rental.inventory_id
+JOIN payment
+ON rental.rental_id = payment.rental_id
+GROUP BY category.name
+ORDER BY gross_revenue DESC
+LIMIT 5;
+
+-- 8a. In your role as an executive, you would lie to have an easy way of viewing the TOP Five
+-- genres by gross revenue. Use the solution from problem 7h. to create a view.
+
+#CREATE VIEW top_five_genres AS
+#SELECT category.name AS category, CONCAT('$', FORMAT (SUM(payment.amount),2)) AS gross_revenue 
+#FROM category
+#JOIN film_category
+#ON category.category_id = film_category.category_id
+#JOIN inventory
+#ON film_category.film_id = inventory.film_id
+#JOIN rental
+#ON inventory.inventory_id = rental.inventory_id
+#JOIN payment
+#ON rental.rental_id = payment.rental_id
+#GROUP BY category.name
+#ORDER BY gross_revenue DESC
+#LIMIT 5;
+
+-- 8b. How would you display the View created in 8a.?
+#SELECT * FROM top_five_genres;
+
+-- 8c. You find that you nolonger need the view top_five_genres. Write a query to delete it.
+#DROP VIEW top_five_genres;
