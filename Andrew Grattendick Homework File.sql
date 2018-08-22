@@ -102,4 +102,51 @@ USE sakila;
 #GROUP BY payment.customer_id
 #ORDER BY customer.last_name;
 
--- 7a. 
+-- 7a. The music of Queen and Kris Kristofferson has seeen an unlikely resurgence.
+-- As an unintended consequence, films starting with the letters K and Q have also
+-- soared in popularity. Use subquerries to display the titles of movies starting 
+-- with the letters K and Q whose langage is English.
+#SELECT title FROM film
+#WHERE title LIKE 'Q%' OR title LIKE 'K%' AND language_id  IN(
+#	SELECT language_id FROM language 
+#	WHERE name = 'English');
+
+-- 7b. Use subqueries to display all actors who appear in the film Alone Trip
+#SELECT first_name, last_name FROM actor
+#WHERE actor_id IN(
+#	SELECT actor_id FROM film_actor
+#	WHERE film_id IN(
+#		SELECT film_id FROM film
+#		WHERE title = 'Alone Trip'));
+
+-- 7c. You want to run an email marketing campaign in Canada for which you will need the names
+-- and email addresses of all Canadian customers. Use JOINS to retrive this information.
+#SELECT customer.first_name, customer.last_name, customer.email FROM customer
+#JOIN address
+#ON customer.address_id = address.address_id
+#JOIN city
+#ON address.city_id = city.city_id
+#JOIN country
+#ON city.country_id = country.country_id
+#WHERE country = 'Canada';
+
+-- 7d. Sales have been lagging among young families and you wish to target all family movies
+-- for a promotion, Identify all movies categorized as family films
+#SELECT title FROM film
+#WHERE film_id IN(
+#	SELECT film_id FROM film_category
+#    WHERE category_id IN(
+#		SELECT category_id FROM category
+#        WHERE name = 'Family'));
+
+-- 7e. Display the most frequently rented movies in descending order.
+#SELECT film.title AS film_title, COUNT(rental.inventory_id) AS number_of_rentals FROM film
+#JOIN inventory
+#ON film.film_id = inventory.film_id
+#JOIN rental
+#ON inventory.inventory_id = rental.inventory_id
+#GROUP BY film.title
+#ORDER BY number_of_rentals DESC;
+
+-- 7f. Write a query to display how much business, in dollars, each store brought in.
+
