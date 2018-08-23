@@ -59,7 +59,7 @@ USE sakila;
 #WHERE first_name = 'HARPO' AND last_name = 'WILLIAMS';
 
 -- 5a. You cannot locate the schema of the address table. Which query would you use to recreate it?
-#Do later
+#DESCRIBE address;
 
 -- 6a. Use JOIN to display the first and last names of each staff memeber, as well as their address
 -- use the tables staff and address
@@ -170,19 +170,19 @@ USE sakila;
 
 -- 7h. List the top five genres in gross revenue in descending order (HINT: you may need to 
 -- use the following tables: category, film_category, inventory, payment, and rental)
-SELECT category.name AS category, CONCAT('$', FORMAT (SUM(payment.amount),2)) AS gross_revenue 
-FROM category
-JOIN film_category
-ON category.category_id = film_category.category_id
-JOIN inventory
-ON film_category.film_id = inventory.film_id
-JOIN rental
-ON inventory.inventory_id = rental.inventory_id
-JOIN payment
-ON rental.rental_id = payment.rental_id
-GROUP BY category.name
-ORDER BY gross_revenue DESC
-LIMIT 5;
+#SELECT category.name AS category, CONCAT('$', FORMAT (SUM(payment.amount),2)) AS gross_revenue 
+#FROM category
+#JOIN film_category
+#ON category.category_id = film_category.category_id
+#JOIN inventory
+#ON film_category.film_id = inventory.film_id
+#JOIN rental
+#ON inventory.inventory_id = rental.inventory_id
+#JOIN payment
+#ON rental.rental_id = payment.rental_id
+#GROUP BY category.name
+#ORDER BY gross_revenue DESC
+#LIMIT 5;
 
 -- 8a. In your role as an executive, you would lie to have an easy way of viewing the TOP Five
 -- genres by gross revenue. Use the solution from problem 7h. to create a view.
